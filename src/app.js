@@ -5,8 +5,10 @@ const TrackerData = require('./models/trackerData')
 const app = express()
 const port = 3001
 
+
+mongoose.set("strictQuery", false);
+
 mongoose.connect('mongodb+srv://username:password@cluster0-rvsbb.mongodb.net/squirrels2022?retryWrites=true&w=majority') 
-//mongoose.connect('mongodb://67.205.176.234:27017/?authSource=admin') 
 
 app.use(express.json())
 
