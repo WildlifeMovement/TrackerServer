@@ -2,13 +2,29 @@ const express = require("express");
 const mongoose = require("mongoose");
 const TrackerData = require("./models/trackerData");
 
+let requiredEnv = [
+  "MONGO_DB_URL",
+  "MONGO_DB_USER",
+  "MONGO_DB_PASS",
+  "MONGO_DB_DATABASE",
+];
+let unsetEnv = requiredEnv.filter(
+  (env) => !(typeof process.env[env] !== "undefined")
+);
+if (unsetEnv.length > 0) {
+  // Don't start the app if the env vars are not set
+  throw new Error(
+    "Required ENV variables are not set: [" + unsetEnv.join(", ") + "]"
+  );
+}
+
 const app = express();
 const port = 3001;
 
 mongoose.set("strictQuery", false);
 
 mongoose.connect(
-  "mongodb+srv://username:password@cluster0-rvsbb.mongodb.net/squirrels2022?retryWrites=true&w=majority"
+  `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASS}@${process.env.MONGO_DB_URL}/${process.env.MONGO_DB_DATABASE}?retryWrites=true&w=majority`
 );
 
 app.use(express.json());
