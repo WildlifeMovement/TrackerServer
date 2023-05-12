@@ -63,6 +63,7 @@ app.post("/data", (req, res) => {
         console.log("Error", error);
       });
   }
+  res.sendStatus(204);
 });
 
 app.get("/data", (req, res) => {
